@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap = Bitmap.createBitmap(
             getScreenWidth(), // Width
-                40, // Height
+                70, // Height
                 Bitmap.Config.ARGB_8888 // Config
         );
 
@@ -31,24 +31,24 @@ public class MainActivity extends AppCompatActivity {
 
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.BLUE);
+        paint.setColor(getResources().getColor(R.color.light_green));
 
-        Paint arrowPaint = new Paint();
-        arrowPaint.setStyle(Paint.Style.FILL);
-        arrowPaint.setColor(Color.BLACK);
-        arrowPaint.setStrokeWidth(5);
+//        Paint arrowPaint = new Paint();
+//        arrowPaint.setStyle(Paint.Style.FILL);
+//        arrowPaint.setColor(Color.BLACK);
+//        arrowPaint.setStrokeWidth(5);
 
         Paint textPaint = new Paint();
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(40);
+        textPaint.setColor(getResources().getColor(R.color.light_green));
+        textPaint.setTextSize(70);
 
         int segmentCount = 7;
         int filledSegmentCount = 4;
-        int gap = 40;
+        int gap = 10;
 
         int marginFromTop = 5;
-        int progressBarHeight = 30;
+        int progressBarHeight = 20;
 
         int marginFromLeft = gap/2;
         int progressBarSegmentWidth = (int)(getScreenWidth() / segmentCount) - gap;
@@ -60,14 +60,15 @@ public class MainActivity extends AppCompatActivity {
             //canvas.drawText(String.valueOf(i+1), (marginFromLeft + marginFromRight - gap - gap - gap)/2, progressBarHeight - gap, textPaint);
             marginFromLeft = marginFromLeft + progressBarSegmentWidth + gap;
             if(i < filledSegmentCount && i < segmentCount-1) {
-                canvas.drawLine(marginFromRight, progressBarHeight / 2, marginFromLeft, progressBarHeight / 2, arrowPaint);
-                canvas.drawText(">", marginFromLeft - 20, progressBarHeight, textPaint);
+                //canvas.drawLine(marginFromRight, progressBarHeight / 2, marginFromLeft, progressBarHeight / 2, arrowPaint);
+                //canvas.drawText(">", marginFromLeft - 20, progressBarHeight, textPaint);
+                canvas.drawText(">", marginFromRight-30, progressBarHeight+15, textPaint);
             }
             marginFromRight = marginFromLeft + progressBarSegmentWidth;
         }
 
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.light_orange));
         //textPaint.setColor(Color.BLACK);
         for(int i = filledSegmentCount; i < segmentCount; i++)
         {
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
             //canvas.drawText(String.valueOf(i+1), (marginFromLeft + marginFromRight - gap - gap - gap)/2, progressBarHeight - gap, textPaint);
             marginFromLeft = marginFromLeft + progressBarSegmentWidth + gap;
             if(i < segmentCount-1) {
-                canvas.drawLine(marginFromRight, progressBarHeight / 2, marginFromLeft, progressBarHeight / 2, arrowPaint);
-                canvas.drawText(">", marginFromLeft - 20, progressBarHeight, textPaint);
+                //canvas.drawLine(marginFromRight, progressBarHeight / 2, marginFromLeft, progressBarHeight / 2, arrowPaint);
+                //canvas.drawText(">", marginFromLeft - 20, progressBarHeight, textPaint);
             }
             marginFromRight = marginFromLeft + progressBarSegmentWidth;
         }
