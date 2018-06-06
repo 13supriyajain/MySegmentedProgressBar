@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap = Bitmap.createBitmap(
             getScreenWidth(), // Width
-                300, // Height
+                70, // Height
                 Bitmap.Config.ARGB_8888 // Config
         );
 
@@ -35,35 +35,38 @@ public class MainActivity extends AppCompatActivity {
 
         Paint textPaint = new Paint();
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(50);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(70);
 
         int segmentCount = 7;
         int filledSegmentCount = 4;
-        int gap = 5;
+        int gap = 40;
 
         int marginFromTop = 5;
         int progressBarHeight = 50;
 
-        int marginFromLeft = 0;
+        int marginFromLeft = gap/2;
         int progressBarSegmentWidth = (int)(getScreenWidth() / segmentCount) - gap;
         int marginFromRight = marginFromLeft + progressBarSegmentWidth;
 
         for(int i = 0; i < filledSegmentCount; i++)
         {
             drawRectangle(canvas, marginFromLeft, marginFromTop, marginFromRight, progressBarHeight, paint);
-            canvas.drawText(String.valueOf(i+1), (marginFromLeft + marginFromRight - gap - gap - gap)/2, progressBarHeight - gap, textPaint);
+            //canvas.drawText(String.valueOf(i+1), (marginFromLeft + marginFromRight - gap - gap - gap)/2, progressBarHeight - gap, textPaint);
             marginFromLeft = marginFromLeft + progressBarSegmentWidth + gap;
+            if(i < filledSegmentCount && i < segmentCount-1) {
+                canvas.drawText(">", marginFromRight, progressBarHeight, textPaint);
+            }
             marginFromRight = marginFromLeft + progressBarSegmentWidth;
         }
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLACK);
-        textPaint.setColor(Color.BLACK);
+        //textPaint.setColor(Color.BLACK);
         for(int i = filledSegmentCount; i < segmentCount; i++)
         {
             drawRectangle(canvas, marginFromLeft, marginFromTop, marginFromRight, progressBarHeight, paint);
-            canvas.drawText(String.valueOf(i+1), (marginFromLeft + marginFromRight - gap - gap - gap)/2, progressBarHeight - gap, textPaint);
+            //canvas.drawText(String.valueOf(i+1), (marginFromLeft + marginFromRight - gap - gap - gap)/2, progressBarHeight - gap, textPaint);
             marginFromLeft = marginFromLeft + progressBarSegmentWidth + gap;
             marginFromRight = marginFromLeft + progressBarSegmentWidth;
         }
