@@ -1,5 +1,6 @@
 package com.supjain.mysegmentedprogressbar;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,6 +10,7 @@ import android.graphics.Rect;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,28 +38,35 @@ public class MainActivity extends AppCompatActivity {
 
         int segmentCount = 7;
         int filledSegmentCount = 3;
-        int circleRadius = 40;
 
-        int marginFromTop = 50;
-        int progressBarHeight = 60;
+        Context context = getApplicationContext();
+
+        int circleRadius = convertDpToPixel(20, context);
+        int circleDiameter = 2 * circleRadius;
+        int vectorDiameter = circleDiameter + 10;
+
+        int marginFromTop = convertDpToPixel(25, context);
+        int progressBarHeight = convertDpToPixel(30, context);
+        int emptyBarHeight = progressBarHeight - 8;
 
         int vectorTop = 0;
-        int vectorBottom = 110;
+        int vectorBottom = convertDpToPixel(55, context);
 
         int marginFromLeft = 0;
         int marginFromRight = 0;
-        int progressBarSegmentWidth = (int)(getScreenWidth() / (segmentCount-1)) -15 - (2 * circleRadius) ;
+        int offset = 5;
+
+        int progressBarSegmentWidth = (int)((getScreenWidth() - 30 - (segmentCount * circleDiameter)) / (segmentCount-1));
 
         for(int i = 0; i < filledSegmentCount; i++)
         {
-            //canvas.drawCircle(marginFromRight, progressBarHeight-10, circleRadius, paint);
-            marginFromRight = marginFromRight + 2 * circleRadius;
+            marginFromRight = marginFromRight + vectorDiameter;
             vectorDrawable.setBounds(marginFromLeft, vectorTop, marginFromRight,vectorBottom);
             vectorDrawable.draw(canvas);
-            marginFromLeft = marginFromRight - 5;
+            marginFromLeft = marginFromRight - offset;
             marginFromRight = marginFromLeft + progressBarSegmentWidth;
             drawRectangle(canvas, marginFromLeft, marginFromTop, marginFromRight, progressBarHeight, paint);
-            marginFromLeft = marginFromRight - 5;
+            marginFromLeft = marginFromRight - offset;
         }
 
         Paint circlePaint = new Paint();
@@ -66,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         circlePaint.setColor(getResources().getColor(R.color.light_green));
 
         marginFromRight = marginFromRight + circleRadius;
-        canvas.drawCircle(marginFromRight, progressBarHeight-10, circleRadius, circlePaint);
+        canvas.drawCircle(marginFromRight, progressBarHeight, circleRadius, circlePaint);
         marginFromLeft = marginFromRight + circleRadius;
         marginFromRight = marginFromLeft + progressBarSegmentWidth;
 
@@ -74,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         paint.setColor(Color.GRAY);
         for(int i = filledSegmentCount; i < segmentCount-1; i++)
         {
-            drawRectangle(canvas, marginFromLeft, marginFromTop, marginFromRight, progressBarHeight-7, paint);
+            drawRectangle(canvas, marginFromLeft, marginFromTop, marginFromRight, emptyBarHeight, paint);
             marginFromRight = marginFromRight + circleRadius;
-            canvas.drawCircle(marginFromRight, progressBarHeight-10, circleRadius, paint);
+            canvas.drawCircle(marginFromRight, progressBarHeight, circleRadius, paint);
             marginFromLeft = marginFromRight + circleRadius;
             marginFromRight = marginFromLeft + progressBarSegmentWidth;
         }
@@ -99,5 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
     public int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public int convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        int px = (int) dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return px;
     }
 }
